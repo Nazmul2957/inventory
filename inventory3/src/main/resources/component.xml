@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="customerDao" class="com.daoimp.CustomerDao" />
+	<bean id="customerService" class="com.service.CustomerService" />
+	
+	<bean id="productDao" class="com.daoimp.ProductDao" />
+	<bean id="productService" class="com.service.ProductService" />
+	
+	<bean id="supplierDao" class="com.daoimp.SupplierDao" />
+	<bean id="supplierService" class="com.service.SupplierService" />
+	
+</beans>

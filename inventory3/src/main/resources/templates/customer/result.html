@@ -1,0 +1,34 @@
+<html>
+   <head>
+      <title>Submitted Customer Information Successfully</title>
+       <style>
+.center {
+    margin:0px 300px;
+    width: 40%;
+   
+    padding: 100px;
+}
+</style>
+   </head>
+   <body>
+<div class="center">
+      <h2>Submitted Customer Information Successfully</h2>
+    
+      <table th:object = '${obj}'>
+         <tr>
+            <td>Name</td>
+            <td><p th:text='*{name}'>tese</p></td>
+         </tr>
+         <tr>
+            <td>Address</td>
+            <td th:text='*{address}'></td>
+         </tr>
+        
+          <tr>
+            <td>Customer Id is :</td>
+            <td th:text='*{id}'></td>
+         </tr>
+      </table> 
+     </div>
+   </body>
+</html>

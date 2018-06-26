@@ -1,0 +1,157 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "AircraftAdmin-Free/head :: head">
+</head>
+<body class=" theme-blue">
+
+    <!-- Demo page code -->
+
+    
+    
+    <style type="text/css">
+        #line-chart {
+            height:300px;
+            width:800px;
+            margin: 0px auto;
+            margin-top: 1em;
+        }
+        .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
+            color: #fff;
+        }
+    </style>
+
+     <script type="text/javascript"> 
+         $(function() {
+             var uls = $('.sidebar-nav > ul > *').clone();
+             uls.addClass('visible-xs');
+             $('#main-menu').append(uls.clone());
+       });
+   </script> 
+
+   
+
+ <div th:replace = "AircraftAdmin-Free/header :: header"></div>
+ <div th:replace = "AircraftAdmin-Free/side-nav-bar :: sidenavbar"></div>
+
+
+
+
+<div class="main content">
+
+
+    <div class="panel panel-default center">
+        
+        <div class="panel-body gallery">
+                <div class="table-responsive">          
+  <table class="table table-hover " id="tablein">
+    <thead class="thead-light" id="customerlist">
+      <tr>
+     
+        <th>Supplier ID</th>
+        <th>Supplier Name</th>
+        <th>Supplier Address</th>
+        <th>Supplier Email Address</th>
+         <th>Supplier Mobile NO</th>
+      </tr>
+    </thead>
+    <tbody id="customerlist">
+      <tr id="LoadingStatus" style="color: red"></tr>
+
+    </tbody>
+  </table>
+  </div>
+           
+        </div>
+    </div>
+   <div class="modal fade" id="delete" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Delete Supplier Record</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div><input type="hidden" id="custid" /></div>
+					<div class="modal-body">Are you sure?</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-danger" onclick="confirmDelete()">Yes</button>
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">No</button>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+    
+    </div>
+    <!-- add modal -->
+		<div class="myform">
+			<form id="formm" action="/save" method="post">
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Update info</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+							<div class="form-group">
+									
+										<input type="hidden" id="id" />
+								</div>
+								<div class="form-group">
+									<label for="name" class="form-control-label">Name:</label> <input
+										type="text" class="form-control" id="name" name="name" />
+								</div>
+								<div class="form-group">
+									<label for="address" class="form-control-label">Address:</label>
+									<input type="text" class="form-control" id="address"
+										name="address" />
+								</div>
+								<div class="form-group">
+									<label for="address" class="form-control-label">Email:</label>
+									<input type="text" class="form-control" id="email"
+										name="address" />
+								</div>
+								<div class="form-group">
+									<label for="address" class="form-control-label">Mobile No:</label>
+									<input type="text" class="form-control" id="mobileNo"
+										name="address" />
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary" value="save">save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+   
+    
+<div th:replace = "AircraftAdmin-Free/index :: footer"></div>
+
+	    <script th:src="@{/js/supplier.js}"></script>
+    <script th:src="@{/lib/bootstrap/js/bootstrap.js}"></script>
+    
+    <script type="text/javascript">
+        $("[rel=tooltip]").tooltip();
+        $(function() {
+            $('.demo-cancel-click').click(function(){return false;});
+        });
+    </script>
+    
+  
+</body></html>

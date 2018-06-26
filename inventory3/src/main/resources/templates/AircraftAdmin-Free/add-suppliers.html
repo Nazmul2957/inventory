@@ -1,0 +1,134 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "AircraftAdmin-Free/head :: head">
+</head>
+
+
+
+
+
+<body class=" theme-blue">
+
+    <!-- Demo page code -->
+
+    <script type="text/javascript">
+        $(function() {
+            var match = document.cookie.match(new RegExp('color=([^;]+)'));
+            if(match) var color = match[1];
+            if(color) {
+                $('body').removeClass(function (index, css) {
+                    return (css.match (/\btheme-\S+/g) || []).join(' ')
+                })
+                $('body').addClass('theme-' + color);
+            }
+
+            $('[data-popover="true"]').popover({html: true});
+            
+        });
+    </script>
+    
+    
+   <style type="text/css"> 
+         #line-chart { 
+             height:300px; 
+             width:800px; 
+           margin: 0px auto; 
+             margin-top: 1em; 
+         } 
+         .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover {  
+             color: #fff; 
+        } 
+   </style> 
+
+    <script type="text/javascript"> -->
+         $(function() {
+             var uls = $('.sidebar-nav > ul > *').clone();
+             uls.addClass('visible-xs');
+            $('#main-menu').append(uls.clone());
+        });
+     </script> 
+
+
+
+    <div th:replace = "AircraftAdmin-Free/header :: header"></div>
+    <div th:replace = "AircraftAdmin-Free/side-nav-bar :: sidenavbar"></div>
+    
+
+
+ <div class="content">
+ <div class="alert alert-success alert-dismissible fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> This alert box could indicate a successful or positive action.
+  </div>
+<div class = "jumbotron text-center">
+  <div class="page-header">
+  
+  <div class="col-sm-4"></div>
+  
+    <div class ="col-sm-3">
+       <h2>Add New Suppliers</h2>
+       </div>   
+  </div>
+<form class="form-horizontal"th:action = '@{ioi2}' th:object = '${obj}' method = "POST">
+  
+<br></br>
+    <div class="form-group">
+          <label class="control-label col-sm-4" for="name">Name<span style="color:red;">*</span></label>
+             <div class="col-sm-4">   
+          <input type="text" class="form-control" th:field = '*{name}' placeholder="Enter name" name="name" required/>
+         </div>  
+    </div>
+
+  <div class="form-group">
+          <label class="control-label col-sm-4" for="name">Address</label>       
+              <div class="col-sm-4">  
+           <input type="text" class="form-control " th:field = '*{address}' placeholder="Enter address" name="address" required>   
+     </div>  
+    </div> 
+
+
+<div class="form-group">
+           <label class="control-label col-sm-4" for="contact">Email Address</label>
+           <div class="col-sm-4">   
+
+           <input type="email" class="form-control" id="email" th:field = '*{email}' placeholder="Enter Email Address" name="contact">
+     </div> 
+</div>
+
+ <div class="form-group">
+           <label class="control-label col-sm-4" >Mobile No<span style="color:red;">*</span></label>
+            <div class="col-sm-4"> 
+           <input type="text" class="form-control" id="mobileNo" th:field = '*{mobileNo}' placeholder="Enter Mobile Number" name="contact" required>
+    </div> 
+    </div>
+ <div class="col-sm-6"></div>
+    <div class="col-sm-3"> 
+ <button type="submit"  value="submit" class="btn btn-danger btn-lg ">Save</button> 
+ </div> 
+
+
+
+</form>
+</div>
+
+</div>
+<div th:replace = "AircraftAdmin-Free/index :: footer"></div>
+   
+	
+    
+    
+    
+    
+    
+
+   
+    <script th:src="@{/lib/bootstrap/js/bootstrap.js}"></script>
+    <script type="text/javascript">
+        $("[rel=tooltip]").tooltip();
+        $(function() {
+            $('.demo-cancel-click').click(function(){return false;});
+        });
+    </script>
+    
+  
+</body></html>

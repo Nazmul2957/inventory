@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Insert title here</title>
+ <style>
+      
+.center {
+    margin:2px 300px;
+    width: 40%;
+   
+    padding: 100px;
+}
+h2{
+padding: 30px;
+}
+
+</style>
+</head>
+<body>
+<div class="center">
+<h2>submit Customer information</h2>
+<form th:action = '@{up}' th:object = '${obj}' method = "POST">
+<table>
+   <tr>
+  <td>ID:<input type = "text" th:field = '*{id}' /></td>
+  </tr>
+  <tr>
+  <td>Name:<input type = "text" th:field = '*{name}'/></td>
+  </tr>
+  <tr>
+  <td>Address:<input type = "text" th:field = '*{address}'/></td>
+  </tr>
+  
+  <tr>
+  <td><button type = "submit" value = "submit">Save</button></td>
+  </tr>
+  </table>
+ </form> 
+ </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<html>
+   <head>
+      <title>Spring MVC Form Handling</title>
+      <style>
+      
+table, th, td {
+    border: 1px solid black;
+}
+th {
+    padding: 15px;
+    text-align: left;
+}
+.center {
+    margin:2px 300px;
+    width: 40%;
+   
+    padding: 100px;
+}
+h2{
+padding: 40px 20px;
+}
+a{
+padding: 30px;
+text-decoration: none;
+}
+button{
+margin:10px;
+}
+</style>
+   </head>
+   <body>
+   <div class="center">
+    <h2>Customer List</h2>
+      
+      <button><a href="add">Add Customer</a></button>
+   <div th:if="${not #lists.isEmpty(obj)}">
+
+      <table>
+      
+         <tr>
+            <th>Name</th>
+             <th>Address</th>
+             <th>customer-id</th>
+         </tr>
+         
+         <tr th:each="pr:${obj}">
+           
+            <td><p th:text="${pr.name}"></p></td>
+            <td th:text="${pr.address}"></td>
+            <td th:text="${pr.id}"></td>
+         </tr>
+        
+      </table> 
+     
+     </div>
+     </div>
+   </body>
+</html>

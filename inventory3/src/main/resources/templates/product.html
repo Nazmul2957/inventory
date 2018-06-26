@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<script type="text/javascript" src="/webjars/jquery/2.2.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/webjars/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" th:src="@{js/main.js}" src="../static/js/main.js"></script> -->
+<link rel="stylesheet"
+	href="/webjars/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" />
+
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<div class="card">
+			<div class="card-block">
+            <a class="btn btn-secondary" href="add">Add Customer</a>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>ProductName</th>
+							<th>Description</th>
+							<th>CatagoryId</th>
+							<th>Unit</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="product :${obj}">
+							<td th:text="${product.id}"></td>
+							<td th:text="${product.name}"></td>
+							<td th:text="${product.description}"></td>
+							<td th:text="${product.catagoryid}"></td>
+							<td th:text="${product.unit}"></td>
+							<td th:text="${product.price}"></td>
+							<td><a th:href="@{edit/(id=${product.id})}" class="btn btn-primary eBtn">Edit</a></td>
+							<td><a th:href="@{delete/(id=${product.id})}" class="btn btn-danger">Delete</a></td>
+							<td><a type="button" data-troggle="modal" data-target="mycata" class="btn btn-danger btn-sm">Delete</a></td>
+						</tr>
+					</tbody>
+				</table>
+
+                <button type="button" data-toggle="modal" data-target="mycata" class="btn btn-danger btn-sm">Delete</button>
+			</div>
+
+             <div class="modal fade" id="mycata" role="diolog" tabindex="-1">
+               <div class="modal-diolog" role="document">
+                  <div class="modal-content">
+                 
+                    <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal">
+                       
+                       </button>
+                      <h4>Add new catagory</h4>
+                    </div>
+                     <div class="modal-body">       
+                     </div>
+                  </div>
+               </div>
+             </div>
+             
+
+      
+		</div>
+		<!-- Button trigger modal -->
+<div id="test"></div>
+  Launch demo modal
+
+
+<!-- Modal -->
+		<div class="myform">
+			<form id="formm" action="/save" method="post">
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Update or
+									save</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+
+									<input type="hidden" id="id" />
+								</div>
+								<div class="form-group">
+									<label for="name" class="form-control-label">Name:</label> <input
+										type="text" class="form-control" id="name" name="name" />
+								</div>
+								<div class="form-group">
+									<label for="address" class="form-control-label">Address:</label>
+									<input type="text" class="form-control" id="address"
+										name="address" />
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary" value="save">save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script>
+	$(document).ready(function() {
+		   $("#exampleModal").modal("show");
+		  $('#formm').submit(function(event) {
+		       
+		      var name = $('#name').val();
+		      var address = $('#address').val();
+		      var json = { "name" : name, "address" : address};
+		       
+		    $.ajax({
+		        url:"/test/add",
+		        data: JSON.stringify(json),
+		        type: "POST",
+		         
+		        beforeSend: function(xhr) {
+		            xhr.setRequestHeader("Accept", "application/json");
+		            xhr.setRequestHeader("Content-Type", "application/json");
+		        },
+		        success: function(smartphone) {
+		        	console.log("ajajj");
+		            var respContent = "";
+		             
+		            respContent += "<span class='success'>Smartphone was created: [";
+		            respContent += smartphone.producer + " : ";
+		            respContent += smartphone.model + " : " ;
+		            respContent += smartphone.price + "]</span>";
+		             
+		            $("#test").html(respContent);         
+		        }
+		    });
+		      
+		    event.preventDefault();
+		  });
+		    
+		});
+
+</script>
+</body>
+</html>

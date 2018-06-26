@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<script type="text/javascript" src="/webjars/jquery/2.2.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/webjars/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="/webjars/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" />
+<!-- 	<script src="/js/jss.js"></script> -->
+
+<title>Insert title here</title>
+</head>
+<body>
+<div>
+<p id="print"></p>
+</div>
+	<div class="container">
+		<div class="card">
+			<div class="card-block">
+				<a class="btn btn-secondary" href="add">Add Customer</a>
+				<button type="button" class="btn btn-primary" data-toggle="modal"
+					data-target="#exampleModal">Add Customer</button>
+				<button type="button" class="btn btn-primary" id="getAllCustomerId">get
+					Customers</button>
+				
+				<div id="postResultDiv" style="background-color:#7FA7B0; color:white; padding:40px 100px 10px 10px"></div>
+				<table class="table table-hover" id="tablein">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Address</th>
+						</tr>
+					</thead>
+					<tbody id="customerlist">
+						<tr id="LoadingStatus" style="color: red"></tr>
+						<!-- 						<tr th:each="custo :${obj}" id="nr"> -->
+
+						<!-- 							<td th:text="${custo.id}"></td> -->
+						<!-- 							<td th:text="${custo.name}"></td> -->
+						<!-- 							<td th:text="${custo.address}"></td> -->
+						<!-- 							<td ><a th:href="@{findone/(id=${custo.id})}" class="btn btn-primary eBtn">Edit</a></td> -->
+						<!-- 							<td><a th:href="@{delete/(id=${custo.id})}"  class="btn btn-danger" >Delete</a></td> -->
+						<!-- 							<td><button type="button" class="btn btn-danger use-address">Delete2</button></td> -->
+						<!-- 						</tr> -->
+
+					</tbody>
+				</table>
+
+
+			</div>
+
+		</div>
+		<!-- add modal -->
+		<div class="myform">
+			<form id="formm" action="/save" method="post">
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Update or
+									save</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+							<div class="form-group">
+									
+										<input type="hidden" id="id" />
+								</div>
+								<div class="form-group">
+									<label for="name" class="form-control-label">Name:</label> <input
+										type="text" class="form-control" id="name" name="name" />
+								</div>
+								<div class="form-group">
+									<label for="address" class="form-control-label">Address:</label>
+									<input type="text" class="form-control" id="address"
+										name="address" />
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary" value="save">save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- Button trigger modal -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="delete" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Delete Customer Record</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div><input type="hidden" id="custid" /></div>
+					<div class="modal-body">Are you sure?</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">No</button>
+						<button type="button" class="btn btn-danger" onclick="confirmDelete()">Yes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+$( document ).ready(function() {
+		ajaxGet();
+		// SUBMIT FORM
+	    $("#formm").submit(function(event) {
+	    	 
+			// Prevent the form from submitting via the browser.
+			event.preventDefault();
+			ajaxPost();
+		});
+	    $("#getAllCustomerId").click(function(event){
+	    	$("#LoadingStatus").html("Loading....");
+			event.preventDefault();
+			ajaxGet();
+		});
+	   
+         
+//	    $(".use-address").click(function() {
+//		    var $row = $(this).closest("tr");    // Find the row
+//		    var $tds = $row.find("td");
+//		    $.each($tds, function() {
+//		        console.log($(this).text());
+//		    });
+//		}); 
+	    $(".use-address").click(function() {
+		    var $row = $(this).closest("tr");    // Find the row
+		    var $tds = $row.find("td:nth-child(2)").text();
+		    console.log($tds);
+		    $("#print").html($tds);
+		})
+		
+// 		ajaxpost
+	    function ajaxPost(){
+	    	
+	    	// PREPARE FORM DATA
+	    	var formData = {
+	    			id:$("#id").val(),
+	    		name : $("#name").val(),
+	    		address :  $("#address").val()
+	    	}
+	    	
+	    	// DO POST
+	    	$.ajax({
+				type : "POST",
+				contentType : "application/json",
+				url : "/customer/save1",
+				data : JSON.stringify(formData),
+				dataType : 'json',
+				success : function(result) {
+					if(result.status == "Done"){
+						//$("#postResultDiv").html("Post Successfully! <br>" +
+													//"Customer's Info: FirstName = " + 
+													//result.data.name + " ,LastName = " + result.data.address);
+// 						var customerRow = "<tr class='row_" + result.data.id+ "'>"  +
+// 			        	"<td>" + result.data.id + "</td>" +
+// 						"<td>" + result.data.name + "</td>" +
+// 						"<td>" + result.data.address + "</td>" +
+// 						 "<td>" + "<button type='button' class='btn btn-primary' onclick='EditStudentRecord(" + result.data.id + ")'>Edit</button>" + "</td>" +
+// 			             "<td>" + "<button type='button' data-toggle='confirmation' data-placement='right' class='btn btn-danger' onclick='Deletecustomer("+result.data.id+")'>Delete</button>" + "</td>"+
+// 					  '</tr>';
+                      
+	                  // $('#tablein tbody').append(customerRow);
+	                   
+	                   ajaxGet();
+	                   $("#exampleModal").modal("hide");
+	                   $("#formm")[0].reset();
+	       	    	  $("#id").val(0);
+	                   
+					}else{
+						$("#postResultDiv").html("<strong>Error</strong>");
+					}
+					console.log(result);
+				},
+				error : function(e) {
+					alert("Error!")
+					console.log("ERROR: ", e);
+				}
+			});
+	    	
+	    	// Reset FormData after Posting
+	    	resetData();
+	    }
+	    
+	    
+	   
+		
+		// DO GET
+		function ajaxGet(){
+			$.ajax({
+				type : "GET",
+				url : window.location + "/all",
+				success: function(result){
+					if(result.status == "Done"){
+						 $('#tablein tbody').empty();
+						var SetData = $("#customerlist");
+				        for (var i = 0; i < result.data.length; i++) {
+				        	var customerRow = "<tr class='row_" + result.data[i].id+ "'>"  +
+				        	"<td>" + result.data[i].id + "</td>" +
+							"<td>" + result.data[i].name + "</td>" +
+							"<td>" + result.data[i].address + "</td>" +
+							 "<td>" + "<button type='button' class='btn btn-primary' onclick='EditStudentRecord(" + result.data[i].id + ")'>Edit</button>" + "</td>" +
+				             "<td>" + "<button type='button' data-toggle='confirmation' data-placement='right' class='btn btn-danger' onclick='Deletecustomer("+result.data[i].id+")'>Delete</button>" + "</td>"+
+						  '</tr>';
+		                   $('#tablein tbody').append(customerRow);
+		                   $("#LoadingStatus").html(" ");
+				        }
+					}else{
+						$("#print").html("<strong>Error</strong>");
+						console.log("Fail: ", result);
+					}
+				},
+				error : function(e) {
+					$("#print").html("<strong>Error</strong>");
+					console.log("ERROR: ", e);
+				}
+			});	
+		}
+		function resetData(){
+	    	$("#name").val("");
+	    	$("#address").val("");
+	    }
+		
+		function editfunc(){
+      	  console.log("hello");
+// 			var $row = $("#edit1").closest("tr");    // Find the row
+// 		    $("#name") = $row.find("td:nth-child(2)").text();
+// 		    $("#address") = $row.find("td:nth-child(3)").text();
+// 		    $("#exampleModal").modal();
+		    console.log($tds);
+	         	}
+	    
+	})
+	function EditStudentRecord(id){
+		
+       // $("#ModalTitle").html("Update Student Record");
+        
+        $.ajax({
+            type: "GET",
+            url:"/customer/get?id="+id,
+            success: function (result) {
+            	
+            	$("#exampleModal").modal("show");
+            	$("#id").val(result.data.id);
+                $("#name").val(result.data.name);
+                $("#address").val(result.data.address);
+                console.log(result.status);
+           
+            }
+        })
+		
+		
+		
+	}
+	function Deletecustomer(id){
+		$("#custid").val(id);
+       $("#ModalTitle").html("Are you sure ?");
+       $("#delete").modal("show");
+       
+       
+	}
+	function confirmDelete(){
+		var id=$("#custid").val();
+        $.ajax({
+			type : "GET",
+			url : "/customer/delete2?id="+id,
+			success: function(resultMsg){
+				//$("#postResultDiv").show();
+				//$("#postResultDiv").html("<p>Customer with Id=" + id + " is deleted successfully!</p>");
+										
+				
+				$(".row_"+id).remove();
+ 
+				$("#delete").modal("hide");
+				//$("#postResultDiv > p").hide(5000);
+				
+			},
+			error : function(e) {
+				$("#print").html("<strong>Error</strong>");
+				console.log("ERROR: ", e);
+			}
+        })
+		
+		
+		
+	}
+    </script>
+</body>
+</html>
